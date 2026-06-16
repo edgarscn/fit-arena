@@ -39,10 +39,10 @@ const Layout = ({ children, activePage }) => {
       <aside className="sidebar">
         <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{
-            background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)',
+            background: 'linear-gradient(135deg, #fde047 0%, #ca8a04 100%)',
             padding: '8px',
             borderRadius: '10px',
-            color: '#fff',
+            color: '#0f172a',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -50,7 +50,7 @@ const Layout = ({ children, activePage }) => {
             <Dumbbell size={24} />
           </div>
           <span style={{ fontSize: '20px', fontWeight: '800', fontFamily: 'Outfit' }}>
-            ARENA <span style={{ color: '#a855f7' }}>FIT</span>
+            ARENA <span style={{ color: 'var(--color-gold)' }}>FIT</span>
           </span>
         </div>
 
@@ -141,14 +141,15 @@ const Layout = ({ children, activePage }) => {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              border: '1px solid rgba(168, 85, 247, 0.2)',
-              background: 'rgba(168, 85, 247, 0.05)'
+              border: '1px solid rgba(202, 138, 4, 0.2)',
+              background: 'rgba(202, 138, 4, 0.05)'
             }}>
-              <Star size={16} fill="#a855f7" color="#a855f7" />
-              <span style={{ fontSize: '14px', fontWeight: '700', color: '#a855f7' }}>Lvl {stats.level}</span>
+              <Star size={16} fill="var(--color-gold)" color="var(--color-gold)" />
+              <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--color-gold)' }}>Lvl {stats.level}</span>
             </div>
           </div>
         </header>
+
 
         <div className="animate-slide-up">
           {children}
