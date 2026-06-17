@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { getWeeklyWorkouts, saveWeeklyWorkouts } from '../utils/storage';
-import { Plus, Trash2, Copy, Dumbbell, Zap, Waves } from 'lucide-react';
+import { Plus, Trash2, Copy, Dumbbell, Zap, Waves, Edit } from 'lucide-react';
 
 const PlanPage = () => {
   const [workouts, setWorkouts] = useState({
@@ -22,40 +22,85 @@ const PlanPage = () => {
   // Copy Day State
   const [showCopyModal, setShowCopyModal] = useState(false);
   const [copyTargetDay, setCopyTargetDay] = useState('Segunda');
+  const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
     setWorkouts(getWeeklyWorkouts());
   }, []);
 
+  const handleEditClick = (ex) => {
+    setEditingId(ex.id);
+    setExerciseType(ex.type);
+    setExerciseName(ex.name);
+    if (ex.type === 'musculacao') {
+      setTargetSets(String(ex.targetSets || 4));
+      setTargetReps(String(ex.targetReps || 10));
+      setTargetWeight(String(ex.targetWeight || 20));
+    } else {
+      setTargetDistance(String(ex.targetDistance || 5));
+      setTargetDuration(String(ex.targetDuration || 30));
+    }
+    setShowAddForm(true);
+  };
+
+  const closeForm = () => {
+    setShowAddForm(false);
+    setEditingId(null);
+    setExerciseName('');
+  };
+
   const handleAddExercise = (e) => {
     e.preventDefault();
     if (!exerciseName.trim()) return;
 
-    const newExercise = {
-      id: Math.random().toString(36).substr(2, 9),
-      name: exerciseName,
-      type: exerciseType,
-      ...(exerciseType === 'musculacao' ? {
-        targetSets: parseInt(targetSets) || 0,
-        targetReps: parseInt(targetReps) || 0,
-        targetWeight: parseFloat(targetWeight) || 0,
-      } : {
-        targetDistance: parseFloat(targetDistance) || 0,
-        targetDuration: parseInt(targetDuration) || 0,
-      })
-    };
+    let updatedDayWorkouts;
+
+    if (editingId) {
+      // Edit mode
+      updatedDayWorkouts = workouts[selectedDay].map(ex => {
+        if (ex.id === editingId) {
+          return {
+            ...ex,
+            name: exerciseName,
+            type: exerciseType,
+            ...(exerciseType === 'musculacao' ? {
+              targetSets: parseInt(targetSets) || 0,
+              targetReps: parseInt(targetReps) || 0,
+              targetWeight: parseFloat(targetWeight) || 0,
+            } : {
+              targetDistance: parseFloat(targetDistance) || 0,
+              targetDuration: parseInt(targetDuration) || 0,
+            })
+          };
+        }
+        return ex;
+      });
+    } else {
+      // Add mode
+      const newExercise = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: exerciseName,
+        type: exerciseType,
+        ...(exerciseType === 'musculacao' ? {
+          targetSets: parseInt(targetSets) || 0,
+          targetReps: parseInt(targetReps) || 0,
+          targetWeight: parseFloat(targetWeight) || 0,
+        } : {
+          targetDistance: parseFloat(targetDistance) || 0,
+          targetDuration: parseInt(targetDuration) || 0,
+        })
+      };
+      updatedDayWorkouts = [...workouts[selectedDay], newExercise];
+    }
 
     const updatedWorkouts = {
       ...workouts,
-      [selectedDay]: [...workouts[selectedDay], newExercise]
+      [selectedDay]: updatedDayWorkouts
     };
 
     setWorkouts(updatedWorkouts);
     saveWeeklyWorkouts(updatedWorkouts);
-
-    // Reset Form
-    setExerciseName('');
-    setShowAddForm(false);
+    closeForm();
   };
 
   const handleDeleteExercise = (id) => {
@@ -239,24 +284,46 @@ const PlanPage = () => {
                       </div>
                     </div>
 
-                    <button 
-                      onClick={() => handleDeleteExercise(ex.id)}
-                      style={{
-                        background: 'transparent',
-                        border: 'none',
-                        color: 'var(--color-danger)',
-                        cursor: 'pointer',
-                        padding: '8px',
-                        borderRadius: '8px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'var(--transition-smooth)'
-                      }}
-                      className="delete-btn"
-                    >
-                      <Trash2 size={18} />
-                    </button>
+                    <div style={{ display: 'flex', gap: '5px' }}>
+                      <button 
+                        onClick={() => handleEditClick(ex)}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: 'var(--text-secondary)',
+                          cursor: 'pointer',
+                          padding: '8px',
+                          borderRadius: '8px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'var(--transition-smooth)'
+                        }}
+                        className="edit-btn"
+                        title="Editar Exercício"
+                      >
+                        <Edit size={18} />
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteExercise(ex.id)}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: 'var(--color-danger)',
+                          cursor: 'pointer',
+                          padding: '8px',
+                          borderRadius: '8px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'var(--transition-smooth)'
+                        }}
+                        className="delete-btn"
+                        title="Excluir Exercício"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -278,7 +345,9 @@ const PlanPage = () => {
             padding: '20px'
           }}>
             <div className="glass-card animate-pop" style={{ width: '100%', maxWidth: '500px', background: 'var(--bg-secondary)', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <h3 style={{ fontSize: '20px', marginBottom: '20px', fontFamily: 'Outfit' }}>Adicionar Exercício para {selectedDay}</h3>
+              <h3 style={{ fontSize: '20px', marginBottom: '20px', fontFamily: 'Outfit' }}>
+                {editingId ? 'Editar Exercício' : `Adicionar Exercício para ${selectedDay}`}
+              </h3>
               
               <form onSubmit={handleAddExercise}>
                 {/* Sport Type */}
@@ -427,7 +496,7 @@ const PlanPage = () => {
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                   <button
                     type="button"
-                    onClick={() => setShowAddForm(false)}
+                    onClick={closeForm}
                     className="btn-secondary"
                   >
                     Cancelar
