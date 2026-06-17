@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby';
-import { Home, Calendar, Dumbbell, Trophy, History, Flame, Star } from 'lucide-react';
+import { Home, Calendar, Dumbbell, Trophy, History, Flame, Star, LogOut } from 'lucide-react';
 import { getUserStats } from '../utils/storage';
+import { useAuth } from './AuthContext';
 import './Theme.css';
 
 const Layout = ({ children, activePage }) => {
+  const { user, logout } = useAuth();
   const [stats, setStats] = useState({ xp: 0, level: 1, streak: 0, badges: [] });
 
   const refreshStats = () => {
@@ -90,6 +92,42 @@ const Layout = ({ children, activePage }) => {
             );
           })}
         </nav>
+        {user && (
+          <div style={{
+            marginTop: 'auto',
+            borderTop: '1px solid var(--card-border)',
+            paddingTop: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '10px'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
+              <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Conectado como:</span>
+              <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={user.email}>
+                {user.email}
+              </span>
+            </div>
+            <button
+              onClick={logout}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--color-danger)',
+                cursor: 'pointer',
+                padding: '6px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'var(--transition-smooth)'
+              }}
+              title="Sair"
+            >
+              <LogOut size={18} />
+            </button>
+          </div>
+        )}
       </aside>
 
       {/* Main Content Area */}
@@ -147,6 +185,28 @@ const Layout = ({ children, activePage }) => {
               <Star size={16} fill="var(--color-gold)" color="var(--color-gold)" />
               <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--color-gold)' }}>Lvl {stats.level}</span>
             </div>
+
+            {user && (
+              <button
+                onClick={logout}
+                title="Sair da Conta"
+                style={{
+                  background: 'rgba(239, 68, 68, 0.06)',
+                  border: '1px solid rgba(239, 68, 68, 0.2)',
+                  color: 'var(--color-danger)',
+                  borderRadius: '50%',
+                  width: '36px',
+                  height: '36px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'var(--transition-smooth)'
+                }}
+              >
+                <LogOut size={16} />
+              </button>
+            )}
           </div>
         </header>
 

@@ -16,6 +16,7 @@
   },
   "license": "0BSD",
   "dependencies": {
+    "firebase": "^12.15.0",
     "framer-motion": "^12.40.0",
     "gatsby": "^5.14.6",
     "gatsby-plugin-manifest": "^5.16.0",
