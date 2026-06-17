@@ -2,16 +2,20 @@ import React, { useState } from 'react';
 import { navigate } from 'gatsby';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../utils/firebase';
+import { useAuth } from '../components/AuthContext';
 import { Dumbbell, Mail, Lock, Eye, EyeOff, AlertCircle, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
 import '../components/Theme.css';
 
 const LoginPage = () => {
+  const { enterDemoMode } = useAuth();
   const [activeTab, setActiveTab] = useState('login'); // 'login' | 'signup'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const isFirebasePending = !auth || (auth.app && auth.app.options && auth.app.options.apiKey === 'YOUR_API_KEY');
   
   // Forgot Password state
   const [showRecovery, setShowRecovery] = useState(false);
@@ -155,6 +159,33 @@ const LoginPage = () => {
             Acesse seus treinos e conquistas semanais
           </p>
         </div>
+
+        {isFirebasePending && (
+          <div style={{
+            background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.2)',
+            color: '#d97706', padding: '15px', borderRadius: '10px', marginBottom: '25px',
+            fontSize: '13px', textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '8px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '700' }}>
+              <AlertCircle size={16} />
+              <span>Conexão com Firebase Pendente</span>
+            </div>
+            <p style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+              Suas credenciais do Firebase não foram configuradas. Você pode usar o aplicativo no modo de demonstração off-line.
+            </p>
+            <button
+              type="button"
+              onClick={enterDemoMode}
+              className="btn-primary"
+              style={{
+                padding: '8px 12px', fontSize: '12px', width: '100%', justifyContent: 'center',
+                boxShadow: 'none', marginTop: '5px'
+              }}
+            >
+              Entrar em Modo de Demonstração
+            </button>
+          </div>
+        )}
 
         {/* Regular Auth Panel */}
         {!showRecovery ? (

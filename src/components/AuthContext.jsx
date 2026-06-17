@@ -9,7 +9,8 @@ const AuthContext = createContext({
   user: null,
   loading: true,
   logout: () => Promise.resolve(),
-  resendVerification: () => Promise.resolve()
+  resendVerification: () => Promise.resolve(),
+  enterDemoMode: () => {}
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -20,6 +21,19 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    // Check if Demo Mode is active
+    const isDemoActive = localStorage.getItem('arena_demo_active') === 'true';
+    if (isDemoActive) {
+      setUser({ uid: 'demo_user', email: 'demo@arenafit.com', emailVerified: true });
+      setLoading(false);
+      
+      const path = window.location.pathname;
+      if (path === '/login' || path === '/login/' || path === '/verify-email' || path === '/verify-email/') {
+        navigate('/');
+      }
+      return;
+    }
 
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
@@ -47,7 +61,7 @@ export const AuthProvider = ({ children }) => {
         }
       } else {
         // Protected paths
-        const protectedPaths = ['/', '/plan', '/plan/', '/workout', '/workout/', '/rewards', '/rewards/', '/history', '/history/'];
+        const protectedPaths = ['/', '/plan', '/plan/', '/workout', '/workout/', '/rewards', '/rewards/', '/history', '/history/', '/chat', '/chat/'];
         if (protectedPaths.includes(path)) {
           navigate('/login');
         }
@@ -69,7 +83,7 @@ export const AuthProvider = ({ children }) => {
         navigate('/');
       }
     } else {
-      const protectedPaths = ['/', '/plan', '/plan/', '/workout', '/workout/', '/rewards', '/rewards/', '/history', '/history/'];
+      const protectedPaths = ['/', '/plan', '/plan/', '/workout', '/workout/', '/rewards', '/rewards/', '/history', '/history/', '/chat', '/chat/'];
       if (protectedPaths.includes(path)) {
         navigate('/login');
       }
@@ -78,6 +92,7 @@ export const AuthProvider = ({ children }) => {
 
   // Migrate localStorage data to Firestore on first signup/login
   const handleLocalDataMigration = async (userId) => {
+    if (userId === 'demo_user') return;
     try {
       const userRef = doc(db, 'users', userId);
       const userSnap = await getDoc(userRef);
@@ -120,6 +135,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem('arena_demo_active');
+    if (user && user.uid === 'demo_user') {
+      setUser(null);
+      navigate('/login');
+      return Promise.resolve();
+    }
     return signOut(auth).then(() => {
       navigate('/login');
     });
@@ -132,8 +153,14 @@ export const AuthProvider = ({ children }) => {
     return Promise.reject('No logged in user');
   };
 
+  const enterDemoMode = () => {
+    localStorage.setItem('arena_demo_active', 'true');
+    setUser({ uid: 'demo_user', email: 'demo@arenafit.com', emailVerified: true });
+    navigate('/');
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, logout, resendVerification }}>
+    <AuthContext.Provider value={{ user, loading, logout, resendVerification, enterDemoMode }}>
       {!loading && children}
     </AuthContext.Provider>
   );
