@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Layout from '../components/Layout';
-import { sendMessageToGemini, parseWorkoutFromResponse } from '../utils/gemini';
+import { parseWorkoutFromResponse } from '../utils/gemini';
 import { getWeeklyWorkouts, saveWeeklyWorkouts } from '../utils/storage';
-import { Send, Key, Dumbbell, Zap, Waves, Check, Plus, AlertCircle, Bot, User } from 'lucide-react';
+import { Send, Dumbbell, Zap, Waves, Plus, AlertCircle, Bot } from 'lucide-react';
 import { Link } from 'gatsby';
 
 const ChatPage = () => {
@@ -14,8 +14,6 @@ const ChatPage = () => {
     }
   ]);
   const [inputText, setInputText] = useState('');
-  const [apiKey, setApiKey] = useState('');
-  const [showKeyForm, setShowKeyForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -26,38 +24,14 @@ const ChatPage = () => {
 
   const messagesEndRef = useRef(null);
 
-  // Load API key from local storage or environment
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const localKey = localStorage.getItem('arena_gemini_key') || '';
-    const envKey = process.env.GATSBY_GEMINI_API_KEY || '';
-    setApiKey(localKey || envKey);
-    if (!localKey && !envKey) {
-      setShowKeyForm(true); // remind user if no key found
-    }
-  }, []);
-
   // Scroll to bottom whenever messages list changes
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
-  const handleSaveKey = (e) => {
-    e.preventDefault();
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('arena_gemini_key', apiKey);
-      setShowKeyForm(false);
-    }
-  };
-
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!inputText.trim()) return;
-    if (!apiKey) {
-      setError('Por favor, configure sua chave de API do Gemini para conversar.');
-      setShowKeyForm(true);
-      return;
-    }
 
     const userMessage = {
       id: Math.random().toString(36).substr(2, 9),
@@ -76,7 +50,22 @@ const ChatPage = () => {
         text: msg.text
       }));
 
-      const aiResponseText = await sendMessageToGemini(historyToSend, apiKey);
+      // Call Gatsby serverless API Function securely (hides API Key from browser)
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ history: historyToSend }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `Erro de resposta: Código ${response.status}`);
+      }
+
+      const data = await response.json();
+      const aiResponseText = data.text;
 
       // Clean AI response text from XML tags to show a clean message to the user
       const cleanResponseText = aiResponseText.replace(/<workout_json>[\s\S]*?<\/workout_json>/gi, '').trim();
@@ -104,7 +93,7 @@ const ChatPage = () => {
       }
     } catch (err) {
       console.error(err);
-      setError(`Erro ao enviar mensagem: ${err.message || 'Verifique sua chave de API.'}`);
+      setError(`Erro ao obter resposta da Inteligência Artificial: ${err.message || 'Verifique sua conexão.'}`);
     } finally {
       setLoading(false);
     }
@@ -210,59 +199,7 @@ const ChatPage = () => {
                 </div>
               </div>
             </div>
-
-            <button
-              onClick={() => setShowKeyForm(!showKeyForm)}
-              style={{
-                background: 'transparent',
-                border: '1px solid var(--card-border)',
-                borderRadius: '8px',
-                padding: '6px 12px',
-                fontSize: '12px',
-                color: 'var(--text-secondary)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                transition: 'var(--transition-smooth)'
-              }}
-            >
-              <Key size={14} /> Chave API
-            </button>
           </div>
-
-          {/* Config Key Form Drawer */}
-          {showKeyForm && (
-            <div style={{
-              background: 'rgba(0,0,0,0.02)',
-              borderBottom: '1px solid var(--card-border)',
-              padding: '15px 20px',
-              animation: 'slideUp 0.3s ease-out'
-            }}>
-              <form onSubmit={handleSaveKey} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <div style={{ flex: 1 }}>
-                  <input
-                    type="password"
-                    required
-                    placeholder="Cole sua Gemini API Key do Google AI Studio..."
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    style={{
-                      width: '100%', padding: '10px 12px', borderRadius: '8px',
-                      background: 'var(--bg-primary)', border: '1px solid var(--card-border)',
-                      color: 'var(--text-primary)', fontSize: '13px', outline: 'none'
-                    }}
-                  />
-                </div>
-                <button type="submit" className="btn-primary" style={{ padding: '10px 20px', fontSize: '13px' }}>
-                  Salvar Chave
-                </button>
-              </form>
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '6px' }}>
-                Obtenha uma chave grátis no <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--color-gold)', textDecoration: 'underline' }}>Google AI Studio</a>. Chaves são salvas localmente no navegador de forma segura.
-              </p>
-            </div>
-          )}
 
           {/* Messages Viewport */}
           <div style={{
