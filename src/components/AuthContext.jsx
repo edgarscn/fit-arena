@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { navigate } from 'gatsby';
 import { onAuthStateChanged, signOut, sendEmailVerification } from 'firebase/auth';
-import { auth, db } from '../utils/firebase';
+import { auth, db, isFirebasePending } from '../utils/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { syncCloudToLocal } from '../utils/storage';
 
@@ -22,10 +22,14 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Check if Demo Mode is active
-    const isDemoActive = localStorage.getItem('arena_demo_active') === 'true';
+    // Check if Firebase is pending or if Demo Mode is active
+    const isDemoActive = isFirebasePending || localStorage.getItem('arena_demo_active') === 'true';
+    if (isFirebasePending) {
+      localStorage.setItem('arena_demo_active', 'true');
+    }
+
     if (isDemoActive) {
-      setUser({ uid: 'demo_user', email: 'demo@arenafit.com', emailVerified: true });
+      setUser({ uid: 'demo_user', email: 'Modo Local', emailVerified: true });
       setLoading(false);
       
       const path = window.location.pathname;
@@ -76,6 +80,16 @@ export const AuthProvider = ({ children }) => {
     if (typeof window === 'undefined' || loading) return;
     
     const path = window.location.pathname;
+    
+    // Bypass protection if Firebase is pending or if using demo mode
+    const isDemoActive = isFirebasePending || (user && user.uid === 'demo_user');
+    if (isDemoActive) {
+      if (path === '/login' || path === '/login/' || path === '/verify-email' || path === '/verify-email/') {
+        navigate('/');
+      }
+      return;
+    }
+
     if (user) {
       if (!user.emailVerified && path !== '/verify-email' && path !== '/verify-email/') {
         navigate('/verify-email');
@@ -135,6 +149,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    if (isFirebasePending) {
+      return Promise.resolve();
+    }
     localStorage.removeItem('arena_demo_active');
     if (user && user.uid === 'demo_user') {
       setUser(null);
@@ -147,7 +164,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const resendVerification = () => {
-    if (auth.currentUser) {
+    if (isFirebasePending) {
+      return Promise.reject('No user in local mode');
+    }
+    if (auth && auth.currentUser) {
       return sendEmailVerification(auth.currentUser);
     }
     return Promise.reject('No logged in user');

@@ -12,12 +12,17 @@ const firebaseConfig = {
   appId: process.env.GATSBY_FIREBASE_APP_ID || "YOUR_APP_ID"
 };
 
+export const isFirebasePending = 
+  !firebaseConfig.apiKey || 
+  firebaseConfig.apiKey === "YOUR_API_KEY" || 
+  firebaseConfig.apiKey.includes("YOUR_");
+
 let app;
 let auth;
 let db;
 
 // Safety check for Gatsby SSG build env (node.js) vs client-side browser execution
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && !isFirebasePending) {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
     auth = getAuth(app);

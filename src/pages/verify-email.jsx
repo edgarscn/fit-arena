@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { navigate } from 'gatsby';
-import { auth } from '../utils/firebase';
+import { auth, isFirebasePending } from '../utils/firebase';
 import { signOut, sendEmailVerification } from 'firebase/auth';
 import { Mail, RefreshCw, LogOut, ShieldAlert, CheckCircle } from 'lucide-react';
 import '../components/Theme.css';
@@ -10,6 +10,10 @@ const VerifyEmailPage = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [userEmail, setUserEmail] = useState('');
+
+  if (isFirebasePending) {
+    return null;
+  }
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

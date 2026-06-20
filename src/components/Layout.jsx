@@ -3,6 +3,7 @@ import { Link } from 'gatsby';
 import { Home, Calendar, Dumbbell, Trophy, History, Flame, Star, LogOut, Bot } from 'lucide-react';
 import { getUserStats } from '../utils/storage';
 import { useAuth } from './AuthContext';
+import { isFirebasePending } from '../utils/firebase';
 import './Theme.css';
 
 const Layout = ({ children, activePage }) => {
@@ -93,7 +94,7 @@ const Layout = ({ children, activePage }) => {
             );
           })}
         </nav>
-        {user && (
+        {user && !isFirebasePending && (
           <div style={{
             marginTop: 'auto',
             borderTop: '1px solid var(--card-border)',
@@ -189,7 +190,7 @@ const Layout = ({ children, activePage }) => {
               <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--color-gold)' }}>Lvl {stats.level}</span>
             </div>
 
-            {user && (
+            {user && !isFirebasePending && (
               <button
                 onClick={logout}
                 title="Sair da Conta"

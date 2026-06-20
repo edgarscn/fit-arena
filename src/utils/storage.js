@@ -49,10 +49,10 @@ const setJSON = (key, value) => {
 
 // Asynchronously sync local write to Firestore cloud if user is logged in
 const syncWriteToCloud = async (path, key, data) => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !auth || !db) return;
   try {
-    const currentUser = auth?.currentUser;
-    if (currentUser) {
+    const currentUser = auth.currentUser;
+    if (currentUser && currentUser.uid !== 'demo_user') {
       const userDocRef = doc(db, 'users', currentUser.uid, ...path);
       await setDoc(userDocRef, data);
     }
@@ -103,7 +103,7 @@ export const saveUserStats = (stats) => {
 
 // Sync Cloud Database data down to local storage (called on login/auth change)
 export const syncCloudToLocal = async (userId) => {
-  if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined' || !db || userId === 'demo_user') return;
   try {
     // 1. Sync Weekly Workouts
     const workoutsSnap = await getDoc(doc(db, 'users', userId, 'workouts', 'weekly'));
