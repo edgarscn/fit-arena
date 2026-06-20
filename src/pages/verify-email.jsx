@@ -11,12 +11,8 @@ const VerifyEmailPage = () => {
   const [success, setSuccess] = useState('');
   const [userEmail, setUserEmail] = useState('');
 
-  if (isFirebasePending) {
-    return null;
-  }
-
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || isFirebasePending) return;
     
     const currentUser = auth.currentUser;
     if (currentUser) {
@@ -87,6 +83,10 @@ const VerifyEmailPage = () => {
       console.error(err);
     }
   };
+
+  if (isFirebasePending) {
+    return null;
+  }
 
   return (
     <div style={{
