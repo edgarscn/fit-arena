@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'gatsby';
-import { Home, Calendar, Dumbbell, Trophy, History, Flame, Star, LogOut, Bot } from 'lucide-react';
+import { Home, Calendar, Dumbbell, Trophy, History, Flame, Star, LogOut, Bot, User } from 'lucide-react';
 import { getUserStats } from '../utils/storage';
 import { useAuth } from './AuthContext';
 import { isFirebasePending } from '../utils/firebase';
@@ -35,6 +35,7 @@ const Layout = ({ children, activePage }) => {
     { name: 'Conquistas', path: '/rewards', icon: Trophy },
     { name: 'Histórico & Retrô', path: '/history', icon: History },
     { name: 'Assistente IA', path: '/chat', icon: Bot },
+    { name: 'Meu Perfil', path: '/profile', icon: User },
   ];
 
   return (
@@ -151,6 +152,7 @@ const Layout = ({ children, activePage }) => {
               {activePage === '/rewards' && 'Suas Conquistas'}
               {activePage === '/history' && 'Histórico & Retrospectivas'}
               {activePage === '/chat' && 'Assistente de Treino IA 🤖'}
+              {activePage === '/profile' && 'Perfil do Atleta 🏅'}
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginTop: '4px' }}>
               {activePage === '/' && 'Pronto para esmagar as metas de hoje?'}
@@ -159,6 +161,7 @@ const Layout = ({ children, activePage }) => {
               {activePage === '/rewards' && 'Veja seus troféus e evolução física e mental.'}
               {activePage === '/history' && 'Analise seu progresso e confira sua retrospectiva semanal.'}
               {activePage === '/chat' && 'Esclareça dúvidas e peça para a inteligência artificial montar seus treinos.'}
+              {activePage === '/profile' && 'Sua central de resultados, estatísticas de esportes e histórico.'}
             </p>
           </div>
 

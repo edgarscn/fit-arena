@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
       
       const path = window.location.pathname;
       if (path === '/login' || path === '/login/' || path === '/verify-email' || path === '/verify-email/') {
-        navigate('/');
+        navigate('/profile');
       }
       return;
     }
@@ -58,16 +58,16 @@ export const AuthProvider = ({ children }) => {
             navigate('/verify-email');
           }
         } else {
-          // If verified and trying to access login/verification, go home
+          // If verified and trying to access login/verification, go to profile
           if (path === '/login' || path === '/login/' || path === '/verify-email' || path === '/verify-email/') {
-            navigate('/');
+            navigate('/profile');
           }
         }
       } else {
         // Protected paths
         const protectedPaths = ['/', '/plan', '/plan/', '/workout', '/workout/', '/rewards', '/rewards/', '/history', '/history/', '/chat', '/chat/'];
         if (protectedPaths.includes(path)) {
-          navigate('/login');
+          navigate('/profile');
         }
       }
     });
@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
     const isDemoActive = isFirebasePending || (user && user.uid === 'demo_user');
     if (isDemoActive) {
       if (path === '/login' || path === '/login/' || path === '/verify-email' || path === '/verify-email/') {
-        navigate('/');
+        navigate('/profile');
       }
       return;
     }
@@ -94,12 +94,12 @@ export const AuthProvider = ({ children }) => {
       if (!user.emailVerified && path !== '/verify-email' && path !== '/verify-email/') {
         navigate('/verify-email');
       } else if (user.emailVerified && (path === '/login' || path === '/login/' || path === '/verify-email' || path === '/verify-email/')) {
-        navigate('/');
+        navigate('/profile');
       }
     } else {
       const protectedPaths = ['/', '/plan', '/plan/', '/workout', '/workout/', '/rewards', '/rewards/', '/history', '/history/', '/chat', '/chat/'];
       if (protectedPaths.includes(path)) {
-        navigate('/login');
+        navigate('/profile');
       }
     }
   }, [loading, user]);
