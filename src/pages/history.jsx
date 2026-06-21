@@ -131,7 +131,7 @@ const HistoryPage = () => {
         {/* Weekly Retrospective Section */}
         {currentWeekStats && (
           <div className="glass-card glow-gold" style={{
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(18, 26, 47, 0.75) 100%)',
+            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(20, 20, 23, 0.75) 100%)',
             position: 'relative',
             overflow: 'hidden'
           }}>
@@ -146,7 +146,7 @@ const HistoryPage = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
               <div>
                 <h2 style={{ fontSize: '22px', fontFamily: 'Outfit', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <BarChart2 size={24} color="#f59e0b" /> 
+                  <BarChart2 size={24} color="#ef4444" /> 
                   {isSundayMode ? 'Retrospectiva de Domingo 🎉' : 'Resumo da Semana Atual'}
                 </h2>
                 <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '3px' }}>
@@ -233,7 +233,7 @@ const HistoryPage = () => {
               alignItems: 'flex-start',
               gap: '12px'
             }}>
-              <Award size={24} color="#f59e0b" style={{ flexShrink: 0, marginTop: '2px' }} />
+              <Award size={24} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
               <div>
                 <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#fff' }}>Avaliação da Semana:</h4>
                 <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px', lineHeight: '1.5' }}>

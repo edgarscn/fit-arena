@@ -107,7 +107,7 @@ const VerifyEmailPage = () => {
         padding: '40px 30px'
       }}>
         <div style={{
-          background: 'rgba(202, 138, 4, 0.1)',
+          background: 'rgba(239, 68, 68, 0.1)',
           width: '72px',
           height: '72px',
           borderRadius: '50%',

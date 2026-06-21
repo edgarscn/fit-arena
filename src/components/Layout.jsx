@@ -43,10 +43,10 @@ const Layout = ({ children, activePage }) => {
       <aside className="sidebar">
         <div style={{ marginBottom: '30px', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{
-            background: 'linear-gradient(135deg, #fde047 0%, #ca8a04 100%)',
+            background: 'linear-gradient(135deg, #ef4444 0%, #991b1b 100%)',
             padding: '8px',
             borderRadius: '10px',
-            color: '#0f172a',
+            color: '#ffffff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'

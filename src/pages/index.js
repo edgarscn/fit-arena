@@ -60,7 +60,7 @@ const IndexPage = () => {
         
         {/* Daily Workout Showcase */}
         <div className="glass-card glow-musculacao" style={{
-          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(18, 26, 47, 0.7) 100%)',
+          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(20, 20, 23, 0.7) 100%)',
           position: 'relative'
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '15px' }}>

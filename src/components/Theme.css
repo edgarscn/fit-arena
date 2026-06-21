@@ -2,31 +2,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap');
 
 :root {
-  /* Color Palette - Premium White & Yellow Light Mode */
-  --bg-primary: #f8fafc;
-  --bg-secondary: #ffffff;
-  --card-bg: rgba(255, 255, 255, 0.8);
-  --card-border: rgba(0, 0, 0, 0.06);
-  --card-hover: rgba(255, 255, 255, 0.95);
+  /* Color Palette - Premium Black & Red Dark Mode */
+  --bg-primary: #09090b;       /* Deep rich dark zinc black */
+  --bg-secondary: #030303;     /* Pure obsidian black for sidebar/headers */
+  --card-bg: rgba(20, 20, 23, 0.65); /* Obsidian glass */
+  --card-border: rgba(255, 255, 255, 0.07); /* Subtle white border */
+  --card-hover: rgba(28, 28, 30, 0.85); /* Slightly lighter border on hover */
   
   /* Text Colors */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #64748b;
+  --text-primary: #f4f4f5;     /* Pure white-grey */
+  --text-secondary: #a1a1aa;   /* Muted grey */
+  --text-muted: #71717a;       /* Dark slate */
   
-  /* Sports Accent Colors - Refined for Light Background */
-  --color-musculacao: #8b5cf6; /* Purple */
-  --color-musculacao-rgb: 139, 92, 246;
-  --color-corrida: #db2777;     /* Pink */
-  --color-corrida-rgb: 219, 39, 119;
-  --color-natacao: #0891b2;     /* Cyan */
-  --color-natacao-rgb: 8, 145, 178;
+  /* Sports Accent Colors - Refined for Dark Background */
+  --color-musculacao: #a78bfa; /* Vibrant Purple */
+  --color-musculacao-rgb: 167, 139, 250;
+  --color-corrida: #f43f5e;     /* Vibrant Pink/Rose */
+  --color-corrida-rgb: 244, 63, 94;
+  --color-natacao: #22d3ee;     /* Vibrant Cyan */
+  --color-natacao-rgb: 34, 211, 238;
   
   /* System Accents */
-  --color-gold: #ca8a04;       /* High-visibility Gold / Yellow */
-  --color-gold-rgb: 202, 138, 4;
+  --color-gold: #ef4444;       /* Primary Crimson Red accent (replaces gold token) */
+  --color-gold-rgb: 239, 68, 68;
   --color-success: #10b981;    /* Green */
-  --color-danger: #ef4444;     /* Red */
+  --color-danger: #f87171;     /* Lighter red for warning/danger text in dark mode */
   
   /* Transitions */
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -56,7 +56,7 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.025em;
 }
 
-/* Glassmorphism Styles (Light version) */
+/* Glassmorphism Styles (Dark version) */
 .glass-card {
   background: var(--card-bg);
   backdrop-filter: blur(12px);
@@ -65,14 +65,14 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 16px;
   padding: 20px;
   transition: var(--transition-smooth);
-  box-shadow: 0 4px 20px 0 rgba(15, 23, 42, 0.03);
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
 .glass-card:hover {
   background: var(--card-hover);
-  border-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(239, 68, 68, 0.25);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px 0 rgba(15, 23, 42, 0.06);
+  box-shadow: 0 8px 30px 0 rgba(239, 68, 68, 0.08);
 }
 
 /* Glowing Highlights */
@@ -96,10 +96,10 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--color-gold);
 }
 
-/* Buttons and Interactions (Yellow/Gold Primary) */
+/* Buttons and Interactions (Red/Crimson Primary) */
 .btn-primary {
-  background: linear-gradient(135deg, #fde047 0%, #ca8a04 100%);
-  color: #0f172a;
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
   border: none;
   padding: 12px 24px;
   font-weight: 700;
@@ -110,12 +110,12 @@ h1, h2, h3, h4, h5, h6 {
   gap: 8px;
   font-family: 'Inter', sans-serif;
   transition: var(--transition-bounce);
-  box-shadow: 0 4px 15px rgba(202, 138, 4, 0.25);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
 }
 
 .btn-primary:hover {
   transform: scale(1.03);
-  box-shadow: 0 6px 20px rgba(202, 138, 4, 0.35);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
 }
 
 .btn-primary:active {
@@ -123,8 +123,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-secondary {
-  background: rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text-primary);
   padding: 12px 24px;
   font-weight: 600;
@@ -137,8 +137,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-secondary:hover {
-  background: rgba(0, 0, 0, 0.06);
-  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 /* Bottom Nav bar style for Mobile / Sidebar for Desktop */
@@ -183,11 +183,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-link:hover, .nav-link.active {
   color: var(--text-primary);
-  background: rgba(0, 0, 0, 0.02);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .nav-link.active {
-  background: linear-gradient(90deg, rgba(202, 138, 4, 0.1) 0%, rgba(202, 138, 4, 0.02) 100%);
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.02) 100%);
   border-left: 3px solid var(--color-gold);
   color: var(--color-gold);
   font-weight: 700;
@@ -209,7 +209,7 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     height: 70px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(3, 3, 3, 0.95);
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--card-border);
     display: flex;
@@ -303,7 +303,7 @@ h1, h2, h3, h4, h5, h6 {
 /* XP Bar styles */
 .xp-container {
   width: 100%;
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   height: 12px;
   border-radius: 6px;
   overflow: hidden;
@@ -312,7 +312,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .xp-bar {
   height: 100%;
-  background: linear-gradient(90deg, #facc15 0%, #f97316 100%);
+  background: linear-gradient(90deg, #ef4444 0%, #991b1b 100%);
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 6px;
 }

@@ -114,7 +114,7 @@ const LoginPage = () => {
         width: '300px',
         height: '300px',
         borderRadius: '50%',
-        background: 'rgba(250, 252, 21, 0.1)',
+        background: 'rgba(239, 68, 68, 0.08)',
         filter: 'blur(80px)',
         zIndex: 0
       }}></div>
@@ -125,7 +125,7 @@ const LoginPage = () => {
         width: '300px',
         height: '300px',
         borderRadius: '50%',
-        background: 'rgba(202, 138, 4, 0.08)',
+        background: 'rgba(153, 27, 27, 0.06)',
         filter: 'blur(80px)',
         zIndex: 0
       }}></div>
@@ -142,15 +142,15 @@ const LoginPage = () => {
         {/* App Title */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '30px' }}>
           <div style={{
-            background: 'linear-gradient(135deg, #fde047 0%, #ca8a04 100%)',
+            background: 'linear-gradient(135deg, #ef4444 0%, #991b1b 100%)',
             padding: '12px',
             borderRadius: '16px',
-            color: '#0f172a',
+            color: '#ffffff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: '12px',
-            boxShadow: '0 4px 20px rgba(202, 138, 4, 0.2)'
+            boxShadow: '0 4px 20px rgba(239, 68, 68, 0.25)'
           }}>
             <Dumbbell size={28} />
           </div>

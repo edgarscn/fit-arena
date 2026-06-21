@@ -39,10 +39,10 @@ const RewardsPage = () => {
             display: 'flex',
             alignItems: 'center',
             gap: '20px',
-            background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(18, 26, 47, 0.7) 100%)'
+            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(20, 20, 23, 0.7) 100%)'
           }}>
             <div style={{
-              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+              background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
               width: '64px',
               height: '64px',
               borderRadius: '16px',
@@ -50,7 +50,7 @@ const RewardsPage = () => {
               alignItems: 'center',
               justifyContent: 'center',
               color: '#fff',
-              boxShadow: '0 0 15px rgba(245, 158, 11, 0.3)'
+              boxShadow: '0 0 15px rgba(239, 68, 68, 0.3)'
             }}>
               <Star size={32} fill="#fff" />
             </div>
@@ -71,7 +71,7 @@ const RewardsPage = () => {
             display: 'flex',
             alignItems: 'center',
             gap: '20px',
-            background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(18, 26, 47, 0.7) 100%)',
+            background: 'linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, rgba(20, 20, 23, 0.7) 100%)',
             borderColor: 'rgba(249, 115, 22, 0.2)'
           }}>
             <div style={{

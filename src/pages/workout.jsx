@@ -268,7 +268,7 @@ const WorkoutPage = () => {
                 borderRadius: '8px',
                 border: '1px solid var(--card-border)',
                 letterSpacing: '1px',
-                color: '#c084fc'
+                color: '#ef4444'
               }}>
                 {formatTime(time)}
               </div>
@@ -520,7 +520,7 @@ const WorkoutPage = () => {
                     padding: '16px 40px',
                     fontSize: '16px',
                     gap: '10px',
-                    boxShadow: '0 8px 30px rgba(139, 92, 246, 0.4)'
+                    boxShadow: '0 8px 30px rgba(239, 68, 68, 0.4)'
                   }}
                 >
                   <Check size={20} /> Concluir Treino
@@ -552,7 +552,7 @@ const WorkoutPage = () => {
             padding: '40px 30px'
           }}>
             <div style={{
-              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+              background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
               width: '80px',
               height: '80px',
               borderRadius: '50%',
@@ -560,7 +560,7 @@ const WorkoutPage = () => {
               alignItems: 'center',
               justifyContent: 'center',
               margin: '0 auto 24px',
-              boxShadow: '0 0 30px rgba(245, 158, 11, 0.5)',
+              boxShadow: '0 0 30px rgba(239, 68, 68, 0.5)',
               color: '#fff'
             }}>
               <Trophy size={40} />
@@ -585,7 +585,7 @@ const WorkoutPage = () => {
             }}>
               <div>
                 <span style={{ display: 'block', fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase' }}>XP Ganho</span>
-                <span style={{ fontSize: '24px', fontWeight: '800', color: '#a855f7' }}>+{earnedXP} XP</span>
+                <span style={{ fontSize: '24px', fontWeight: '800', color: '#ef4444' }}>+{earnedXP} XP</span>
               </div>
               <div style={{ borderLeft: '1px solid var(--card-border)', height: '40px' }}></div>
               <div>

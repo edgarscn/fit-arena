@@ -180,14 +180,14 @@ const ChatPage = () => {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div style={{
-                background: 'linear-gradient(135deg, #fde047 0%, #ca8a04 100%)',
+                background: 'linear-gradient(135deg, #ef4444 0%, #991b1b 100%)',
                 width: '40px',
                 height: '40px',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#0f172a'
+                color: '#ffffff'
               }}>
                 <Bot size={20} />
               </div>
@@ -227,8 +227,8 @@ const ChatPage = () => {
                 >
                   {/* Bubble */}
                   <div style={{
-                    background: isAi ? 'var(--bg-secondary)' : 'linear-gradient(135deg, #fde047 0%, #ca8a04 100%)',
-                    color: isAi ? 'var(--text-primary)' : '#0f172a',
+                    background: isAi ? 'var(--bg-secondary)' : 'linear-gradient(135deg, #ef4444 0%, #991b1b 100%)',
+                    color: isAi ? 'var(--text-primary)' : '#ffffff',
                     padding: '12px 18px',
                     borderRadius: isAi ? '16px 16px 16px 4px' : '16px 16px 4px 16px',
                     boxShadow: '0 4px 15px rgba(0,0,0,0.02)',

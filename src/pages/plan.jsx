@@ -178,9 +178,9 @@ const PlanPage = () => {
                     padding: '12px 10px',
                     borderRadius: '12px',
                     border: '1px solid',
-                    borderColor: isSelected ? '#8b5cf6' : 'var(--card-border)',
-                    background: isSelected ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(139, 92, 246, 0.05) 100%)' : 'rgba(255, 255, 255, 0.02)',
-                    color: isSelected ? '#c084fc' : 'var(--text-secondary)',
+                    borderColor: isSelected ? '#ef4444' : 'var(--card-border)',
+                    background: isSelected ? 'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.05) 100%)' : 'rgba(255, 255, 255, 0.02)',
+                    color: isSelected ? '#f87171' : 'var(--text-secondary)',
                     fontWeight: isSelected ? '700' : '500',
                     cursor: 'pointer',
                     display: 'flex',
@@ -195,7 +195,7 @@ const PlanPage = () => {
                     fontSize: '11px',
                     padding: '2px 8px',
                     borderRadius: '20px',
-                    background: isSelected ? 'rgba(139, 92, 246, 0.3)' : 'rgba(255, 255, 255, 0.05)',
+                    background: isSelected ? 'rgba(239, 68, 68, 0.3)' : 'rgba(255, 255, 255, 0.05)',
                     color: isSelected ? '#fff' : 'var(--text-muted)'
                   }}>
                     {count} {count === 1 ? 'exer.' : 'exer.'}
@@ -212,7 +212,7 @@ const PlanPage = () => {
           <div className="glass-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <h2 style={{ fontSize: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                Treino de <span style={{ color: '#c084fc' }}>{selectedDay}</span>
+                Treino de <span style={{ color: 'var(--color-gold)' }}>{selectedDay}</span>
               </h2>
               <div style={{ display: 'flex', gap: '10px' }}>
                 {workouts[selectedDay].length > 0 && (
